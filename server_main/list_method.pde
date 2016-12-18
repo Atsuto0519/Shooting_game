@@ -1,11 +1,10 @@
 // list's head
-public CharacterData Head;
+public CharacterData Head=null;
 
 // list of character's datas
 public static class CharacterData {
   String ip;
   int x, y, hp, exception;
-  int length;
   CharacterData next = null;
   
   CharacterData(String IP, int px, int py, int HP, int EXC) {
@@ -14,20 +13,16 @@ public static class CharacterData {
     y = py;
     hp = HP;    
     exception = EXC;
-    length = 1;
   }
   // add list
   void add(String IP, int px, int py, int HP, int EXC) {
     next = new CharacterData(IP, px, py, HP, EXC);
-    next.exception = EXC;
     next.next = null;
-    length++;
   }
   //remove list
   void remove_next() {
     if(next.next != null) {
       next = next.next;
-      length++;
     }
     else {
       next = null;
@@ -75,25 +70,20 @@ void insert_CharacterData(CharacterData prev, String IP, int px, int py, int HP,
   }
 }
 
-boolean add_CharacterData(CharacterData head, String IP, int px, int py, int HP, int EXC) {
-  boolean feedback=false;
-  
+void add_CharacterData(CharacterData head, String IP, int px, int py, int HP, int EXC) { 
   CharacterData x = searchIP_CharacterData(head, IP);
+  
   if(x == null){
     CharacterData p;
     for(p = head; p.next!=null; p=p.next);
     p.add(IP, px, py, HP, EXC);
-    feedback = true;
   }
-    
-  return feedback;  
 }
 
 void remove_CharacterData(CharacterData head, String IP) {
   CharacterData prev = prev_CharacterData(head, searchIP_CharacterData(head, IP));
   if(prev.next != null){
     prev.next = prev.next .next;
-    prev.next.length--;
   }
   else
     prev.next = null;
@@ -119,12 +109,13 @@ void dump_CharacterData(CharacterData head) {
 
 void exec_clientserverStr(CharacterData head, String clientStr){
   String[] ss = splitTokens(clientStr, ",");
-  String IP = ss[0];
-  int px = int(ss[1]);
-  int py = int(ss[2]);
-  int HP = int(ss[3]);
-  int EXC = int(ss[4]);
-  ellipse(px, py, 20, 20);
-  if(!add_CharacterData(head, IP, px, py, HP, EXC))
-    convert_CharacterData(head, IP, px, py, HP, EXC);
+  if(ss.length>4){
+    String IP = ss[0];
+    int px = int(ss[1]);
+    int py = int(ss[2]);
+    int HP = int(ss[3]);
+    int EXC = int(ss[4]);
+    add_CharacterData(Head, IP, px, py, HP, EXC);
+    convert_CharacterData(Head, IP, px, py, HP, EXC);
+  }
 }

@@ -19,7 +19,10 @@ void draw(){
 }
 
 void mouseClicked(){
-  String s = make_clientStr(Head);
+  String s;
+  convert_CharacterData(Head, Server.ip(), mouseX, mouseY, 100, 0);
+  dump_CharacterData(Head); 
+  s = make_clientStr(Head);
   if(s != null){
     println(s);
     client.write(s + '\n');
@@ -38,13 +41,11 @@ void clientEvent(Client server){
 
 void split_clientserverStr(CharacterData head, String someStr){
   String[] ss = splitTokens(someStr, ";");
-  println(ss.length);
-  for(int i=0; i<ss.length; i++){
-    println(ss[i]);
-  }
-  for(int i=0; i<ss.length; i++){
-    println(ss[i]);
-    exec_clientserverStr(head, ss[i]);
+  if(ss.length>1){
+    for(int i=0; i<ss.length; i++){
+      println(ss[i]);
+      exec_clientserverStr(head, ss[i]);
+    }
   }
 }
 

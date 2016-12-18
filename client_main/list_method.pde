@@ -109,11 +109,13 @@ void dump_CharacterData(CharacterData head) {
 
 void exec_clientserverStr(CharacterData head, String clientStr){
   String[] ss = splitTokens(clientStr, ",");
-  String IP = ss[0];
-  int px = int(ss[1]);
-  int py = int(ss[2]);
-  int HP = int(ss[3]);
-  int EXC = int(ss[4]);
-  add_CharacterData(Head, IP, px, py, HP, EXC);
-  convert_CharacterData(Head, IP, px, py, HP, EXC);
+  if(ss.length>4){
+    String IP = ss[0];
+    int px = int(ss[1]);
+    int py = int(ss[2]);
+    int HP = int(ss[3]);
+    int EXC = int(ss[4]);
+    add_CharacterData(Head, IP, px, py, HP, EXC);
+    convert_CharacterData(Head, IP, px, py, HP, EXC);
+  }
 }
