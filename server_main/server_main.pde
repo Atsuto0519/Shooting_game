@@ -32,9 +32,9 @@ void setup()
   
   // initializing list
   Head = new CharacterData(Server.ip(), 0, 0, 100, 0);
-  add_CharacterData(Head, "127.0.0.0.2", 1, 1, 99, 0);
-  add_CharacterData(Head, "127.0.0.0.3", 2, 1, 98, 0);
-  add_CharacterData(Head, "127.0.0.0.4", 3, 1, 97, 0);
+  add_CharacterData(Head, "127.0.0.2", 1, 1, 99, 0);
+  add_CharacterData(Head, "127.0.0.3", 2, 1, 98, 0);
+  add_CharacterData(Head, "127.0.0.4", 3, 1, 97, 0);
   remove_CharacterData(Head, "10.0.0.0");
   dump_CharacterData(Head);
 }
@@ -46,10 +46,10 @@ void draw()
     println("Client IP address : "+c.ip());
     String s = c.readStringUntil('\n');
     if(s != null){
-      //exec_clientserverStr(Head, c.ip() + "," + s);
-      //println(s);
+      exec_clientserverStr(Head, c.ip() + "," + s);
+      println(s);
       println("server received: " + s); 
-      server.write(s + '\n');
+      //server.write(s + '\n');
     }
   } else {  
   }
@@ -57,11 +57,11 @@ void draw()
 
 void mouseClicked(){
   String s;
-  convert_CharacterData(Head, "localhost", mouseX, mouseY, 100, 0);
+  convert_CharacterData(Head, Server.ip(), mouseX, mouseY, 100, 0);
   dump_CharacterData(Head); 
   s = make_serverStr(Head);
   println(s);
-  server.write(s + '\n');    
+  server.write(s+'\n');    
 }
 
 void serverEvent(Server someServer, Client someClient) {
@@ -70,7 +70,7 @@ void serverEvent(Server someServer, Client someClient) {
   dump_CharacterData(Head);
   String serverStr = make_serverStr(Head);
   println(serverStr);
-  server.write(serverStr);
+  //server.write(serverStr);
 }
 
 String make_serverStr(CharacterData head){

@@ -1,5 +1,5 @@
 // list's head
-public CharacterData Head;
+public CharacterData Head=null;
 
 // list of character's datas
 public static class CharacterData {
@@ -17,7 +17,6 @@ public static class CharacterData {
   // add list
   void add(String IP, int px, int py, int HP, int EXC) {
     next = new CharacterData(IP, px, py, HP, EXC);
-    next.exception = EXC;
     next.next = null;
   }
   //remove list
@@ -71,18 +70,14 @@ void insert_CharacterData(CharacterData prev, String IP, int px, int py, int HP,
   }
 }
 
-boolean add_CharacterData(CharacterData head, String IP, int px, int py, int HP, int EXC) {
-  boolean feedback=false;
-  
+void add_CharacterData(CharacterData head, String IP, int px, int py, int HP, int EXC) { 
   CharacterData x = searchIP_CharacterData(head, IP);
+  
   if(x == null){
     CharacterData p;
     for(p = head; p.next!=null; p=p.next);
     p.add(IP, px, py, HP, EXC);
-    feedback = true;
   }
-    
-  return feedback;  
 }
 
 void remove_CharacterData(CharacterData head, String IP) {
@@ -119,8 +114,6 @@ void exec_clientserverStr(CharacterData head, String clientStr){
   int py = int(ss[2]);
   int HP = int(ss[3]);
   int EXC = int(ss[4]);
-  ellipse(px, py, 20, 20);
-  add_CharacterData(head, IP, px, py, HP, EXC);
-  convert_CharacterData(head, IP, px, py, HP, EXC);
-  dump_CharacterData(Head);
+  add_CharacterData(Head, IP, px, py, HP, EXC);
+  convert_CharacterData(Head, IP, px, py, HP, EXC);
 }

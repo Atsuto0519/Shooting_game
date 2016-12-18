@@ -10,18 +10,12 @@ void setup(){
   size(400, 400);
 //  l = new ArrayList();
   client = new Client(this, "127.0.0.1", 50519);
+  Head = new CharacterData(client.ip(),0,0,0,0);
 }
 
 void draw(){
-  //fadeToBlack();
-  fill(255, 0, 0);
-  //for(int i = l.size()-1; i >= 0; i--){
-    //Animation a = (Animation) l.get(i);
-    //a.display();
-    //if(a.step()){
-    //  l.remove(a);}
-  //}
-  dump_CharacterData(Head);
+  //dump_CharacterData(Head);
+
 }
 
 void mouseClicked(){
@@ -34,7 +28,7 @@ void mouseClicked(){
 }
   
 void clientEvent(Client server){
-  String serverStr = server.readStringUntil('\n'); 
+  String serverStr = client.readStringUntil('\n'); 
   if(serverStr != null){
     println("client received: " + serverStr);
     split_clientserverStr(Head, serverStr);
@@ -45,6 +39,9 @@ void clientEvent(Client server){
 void split_clientserverStr(CharacterData head, String someStr){
   String[] ss = splitTokens(someStr, ";");
   println(ss.length);
+  for(int i=0; i<ss.length; i++){
+    println(ss[i]);
+  }
   for(int i=0; i<ss.length; i++){
     println(ss[i]);
     exec_clientserverStr(head, ss[i]);
