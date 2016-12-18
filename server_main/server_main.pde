@@ -46,8 +46,7 @@ void draw()
     println("Client IP address : "+c.ip());
     String s = c.readStringUntil('\n');
     if(s != null){
-      exec_clientserverStr(Head, c.ip() + "," + s);
-      println(s);
+      exec_clientserverStr(Head, s);
       println("server received: " + s); 
       //server.write(s + '\n');
     }
@@ -66,11 +65,12 @@ void mouseClicked(){
 
 void serverEvent(Server someServer, Client someClient) {
   println("We have a new client: " + someClient.ip());
+  convert_CharacterData(Head, Server.ip(), mouseX, mouseY, 100, 0);
+  dump_CharacterData(Head); 
   add_CharacterData(Head, someClient.ip(), (int)random(400), (int)random(400), 100, 0);  
-  dump_CharacterData(Head);
   String serverStr = make_serverStr(Head);
   println(serverStr);
-  //server.write(serverStr);
+  server.write(serverStr);
 }
 
 String make_serverStr(CharacterData head){

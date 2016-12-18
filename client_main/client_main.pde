@@ -20,7 +20,7 @@ void draw(){
 
 void mouseClicked(){
   String s;
-  convert_CharacterData(Head, Server.ip(), mouseX, mouseY, 100, 0);
+  convert_CharacterData(Head, client.ip(), mouseX, mouseY, 100, 0);
   dump_CharacterData(Head); 
   s = make_clientStr(Head);
   if(s != null){
