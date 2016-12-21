@@ -8,6 +8,8 @@ int Xtotal = 150;
 int Ytotal = 150;
 
 void check_anykey() {
+  y = 0;  
+  x = 0;
   //押されているキーに応じて、円の中心点を更新
   if (Ytotal <= YMAX) {
     if (w) {
@@ -40,8 +42,8 @@ void check_anykey() {
   ship3[1] += y;
   boss[0] += x;
   boss[1] += y;
-
-  if (w||s||a||d) {
+   
+  if (w||s||a||d||r) {
     String s;
     convert_CharacterData(Head, Server.ip(), searchIP_CharacterData(Head, Server.ip()).x+x, searchIP_CharacterData(Head, Server.ip()).y+y, myHP, myEXC);
     dump_CharacterData(Head); 

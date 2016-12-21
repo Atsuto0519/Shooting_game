@@ -10,6 +10,8 @@ int Ytotal = 150;
 CharacterData old_server;
 
 void check_anykey() {
+    y = 0;  
+    x = 0;
   //押されているキーに応じて、円の中心点を更新
   if (Ytotal <= YMAX) {
     if (w) {
@@ -35,24 +37,30 @@ void check_anykey() {
       Xtotal -=1;
     }
   }
-/*
+  /*
   ship1[0] += x;
-  ship1[1] += y;
-  ship3[0] += x;
-  ship3[1] += y;
-  boss[0] += x;
-  boss[1] += y;*/
+   ship1[1] += y;
+   ship3[0] += x;
+   ship3[1] += y;
+   boss[0] += x;
+   boss[1] += y;*/
 
-  if (w||s||a||d) {
+  if (w||s||a||d||r) {
     String s;
-    if (old_server!=null && old_server!=Head.next)
-      convert_CharacterData(Head, myIP, searchIP_CharacterData(Head, myIP).x+x*2, searchIP_CharacterData(Head, myIP).y+y*2, myHP, myEXC);
-    else if(old_server!=null)
-      convert_CharacterData(Head, myIP, searchIP_CharacterData(Head, myIP).x+x*4, searchIP_CharacterData(Head, myIP).y+y*4, myHP, myEXC);    
-    dump_CharacterData(Head); 
-    s = make_clientStr(Head);
-    println(s);
-    client.write(s+'\n');
+    if (old_server!=null && old_server!=Head.next) {
+      convert_CharacterData(Head, myIP, searchIP_CharacterData(Head, myIP).x+x*2, searchIP_CharacterData(Head, myIP).y+y*2, myHP, myEXC);      
+      s = make_clientStr(Head);
+      println(s);
+      client.write(s+'\n');
+    } else if (old_server!=null) {
+      convert_CharacterData(Head, myIP, searchIP_CharacterData(Head, myIP).x+x*4, searchIP_CharacterData(Head, myIP).y+y*4, myHP, myEXC);        
+      s = make_clientStr(Head);
+      println(s);
+      client.write(s+'\n');
+    } else {
+    }
+    dump_CharacterData(Head);
+    myEXC = 0;
   }
 }
 

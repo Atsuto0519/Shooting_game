@@ -21,9 +21,9 @@ void setup() {
   tama1Alive = 0;
   tama2Alive = 0;
   item = new Item(160, 0, 10);
-  client = new Client(this, "192.168.0.7", 50519);
+  client = new Client(this, "127.0.0.1", 50519);
   Head = new CharacterData("localhost", 0, 0, 0, 0);
-  myIP = "192.168.0.9";
+  myIP = client.ip();
 }
 
 void draw() {
@@ -33,14 +33,21 @@ void draw() {
   if (Head.next!=null)
     update_divergence(Head, myIP);
 
-  if (frame%6==0) {
-    y = 0;  
-    x = 0;
-    check_anykey();
+  if (r) {
+    stroke(255, 255, 255);
+    strokeWeight(2);
+    line(width/2, ship2[1], width/2, 0);
+    myEXC=3;
   }
+
+  if (frame%6==0) {
+    check_anykey();  
+  }
+
   if (frame%2==0) {
     background(0);
     output_object(Head, ships);
+    item.update(x, y);
   }
 
   frame++;

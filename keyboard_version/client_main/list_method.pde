@@ -135,11 +135,13 @@ int calc_CharacterData(CharacterData head) {
   return feedback;
 }
 
-void update_divergence(CharacterData head, String IP){
+void update_divergence(CharacterData head, String IP) {
   CharacterData myData=searchIP_CharacterData(head, IP);
-  
-  for(CharacterData p=head.next; p!=null; p=p.next){
-    p.x_divergence = myData.x-p.x;
-    p.y_divergence = myData.y-p.y;
+
+  if (myData!=null) {
+    for (CharacterData p=head.next; p!=null; p=p.next) {
+      p.x_divergence = myData.x-p.x;
+      p.y_divergence = myData.y-p.y;
+    }
   }
 }

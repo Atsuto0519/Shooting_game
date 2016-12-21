@@ -45,10 +45,10 @@ void setup()
   }
 
   // initializing list
-  Head = new CharacterData(Server.ip(), boss[0], boss[1], 100, 0);
+  Head = new CharacterData(Server.ip(), boss[0], boss[1], 100, 0);/*
   add_CharacterData(Head, "127.0.0.2", ship1[0], ship1[1], 100, 0);
-  add_CharacterData(Head, "127.0.0.3", ship2[0], ship2[1], 98, 0);
-  add_CharacterData(Head, "127.0.0.4", ship3[0], ship3[1], 98, 0);
+   add_CharacterData(Head, "127.0.0.3", ship2[0], ship2[1], 98, 0);
+   add_CharacterData(Head, "127.0.0.4", ship3[0], ship3[1], 98, 0);*/
   remove_CharacterData(Head, "10.0.0.0");
   dump_CharacterData(Head);
 
@@ -57,8 +57,13 @@ void setup()
 
 void draw() 
 {  
-  y = 0;  
-  x = 0;
+  myEXC = 0;
+  if (r) {
+    stroke(255, 255, 255);
+    strokeWeight(2);
+    line(ship2[0]+50, ship2[1], ship2[0]+50, 480);
+    myEXC=3;
+  }   
   check_anykey();
   update_divergence(Head, server.ip());
 
@@ -86,11 +91,6 @@ void draw()
       tama2Y = ship2[1];
       tama2Alive = 1;
     }
-  }
-  if (r) {
-    stroke(255, 255, 255);
-    strokeWeight(2);
-    line(ship2[0]+50, ship2[1], ship2[0]+50, 0);
   }
 
   if (tama1Alive == 1) {
@@ -127,7 +127,7 @@ void draw()
 
 void serverEvent(Server someServer, Client someClient) {
   println("We have a new client: " + someClient.ip());
-  convert_CharacterData(Head, Server.ip(), mouseX, mouseY, 100, 0);
+  convert_CharacterData(Head, Server.ip(), (int)random(200)+200, 300, 100, 0);
   dump_CharacterData(Head); 
   add_CharacterData(Head, someClient.ip(), (int)random(400), (int)random(400), 100, 0);  
   String serverStr = make_serverStr(Head);

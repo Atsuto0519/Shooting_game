@@ -27,6 +27,8 @@ class Item {
       iy = 0;
       ix = random(width);
       myHP-=10;
+      convert_CharacterData(Head, myIP, searchIP_CharacterData(Head, myIP).x+x*2, searchIP_CharacterData(Head, myIP).y+y*2, myHP, myEXC);
+      myEXC = 0;
     }
     if (iy > height) {
       iy = 0;
