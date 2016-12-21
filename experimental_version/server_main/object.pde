@@ -3,12 +3,12 @@ int tama1Alive, tama2Alive;
 int ship1[]={-120, 300};
 int ship2[]={270, 300};
 int ship3[]={700, 300};
-int boss[]={0, 500};
-Item item;
+int boss[]={230, -200};
+//Item item;
 
 PImage[] ships = new PImage[4];
 int myX=270, myY=300, myHP=100, myEXC=0;
-
+/*
 class Item {
   float ix, iy, ir;
   Item(float x, float y, float r) {
@@ -25,15 +25,16 @@ class Item {
     if (dist(ix, iy, ship2[0]+50, ship2[1]+50) < 60) {
       iy = 0;
       ix = random(width);
-      myHP-=10;
+      ;
     }
     if (iy > height) {
       iy = 0;
       ix = random(width);
+      myHP-=10;
     }
   }
-}
-
+}*/
+/*
 void input_object(CharacterData head, int boss[], int ship1[], int ship2[], int ship3[]) {
   // character ga sannninn ijo no toki
   int char_num=calc_CharacterData(head);
@@ -48,22 +49,16 @@ void input_object(CharacterData head, int boss[], int ship1[], int ship2[], int 
     head.next.next.next.y=ship3[1];
   }
 }
-
+*/
 // リストの中身を画面に反映
 void output_object(CharacterData head, PImage[] ships) {
   int char_num=calc_CharacterData(head);
   int shipsimage_num=ships.length;
-  int counter=2, cnt;
+  int counter=3;
   CharacterData p=head;
 
-  /*
-  image(ships[0], p.x_divergence+270, p.y_divergence+300, 100, 100);
-   image(ships[3], p.x, p.y, 200, 200);*/
-   
-  
-  image(ships[3], p.x_divergence+width/2, p.y_divergence+300, 300, 300);
+  image(ships[3], myX+p.x_divergence, myY+p.y_divergence, 200, 200);
   for (p=head.next; p!=null; p=p.next) {
-    cnt=counter++%3;
-    image(ships[cnt], p.x_divergence+width/2, p.y_divergence+300, 100, 100);
+    image(ships[counter++%3], Xtotal, Ytotal, 100, 100);
   }
 }

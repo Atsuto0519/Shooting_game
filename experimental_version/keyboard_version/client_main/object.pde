@@ -3,7 +3,7 @@ int tama1Alive, tama2Alive;
 int ship1[]={-120, 300};
 int ship2[]={270, 300};
 int ship3[]={700, 300};
-int boss[]={0, 500};
+int boss[]={0, 800};
 Item item;
 
 PImage[] ships = new PImage[4];
@@ -26,6 +26,13 @@ class Item {
       iy = 0;
       ix = random(width);
       myHP-=10;
+      
+      String s;
+      convert_CharacterData(Head, client.ip(), searchIP_CharacterData(Head, client.ip()).x+x, searchIP_CharacterData(Head, client.ip()).y+y, myHP, myEXC);
+      dump_CharacterData(Head); 
+      s = make_clientStr(Head);
+      println("hit:"+s);
+     client.write(s+'\n');
     }
     if (iy > height) {
       iy = 0;
@@ -59,11 +66,11 @@ void output_object(CharacterData head, PImage[] ships) {
   /*
   image(ships[0], p.x_divergence+270, p.y_divergence+300, 100, 100);
    image(ships[3], p.x, p.y, 200, 200);*/
-   
-  
-  image(ships[3], p.x_divergence+width/2, p.y_divergence+300, 300, 300);
-  for (p=head.next; p!=null; p=p.next) {
-    cnt=counter++%3;
-    image(ships[cnt], p.x_divergence+width/2, p.y_divergence+300, 100, 100);
+  for (p=head; p!=null; p=p.next) {
+    cnt=counter++%4;
+    if (cnt==3)
+      image(ships[3], p.x_divergence+width/2, p.y_divergence+300, 300, 300);
+    else
+      image(ships[cnt], p.x_divergence+width/2, p.y_divergence+300, 100, 100);
   }
 }

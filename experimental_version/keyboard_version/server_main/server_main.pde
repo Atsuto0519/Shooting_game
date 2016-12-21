@@ -32,7 +32,10 @@ void setup()
   ships[3] = loadImage("boss.PNG");
   tama1Alive = 0;
   tama2Alive = 0;
+  btamaAlive = 0;
   item = new Item(160, 0, 10);
+  danmakuList = new ArrayList<Danmaku>(); // 弾リスト生成
+  _boss = new Boss();
 
   // server starting
   server = new Server(this, 50519);
@@ -48,7 +51,6 @@ void setup()
   Head = new CharacterData(Server.ip(), boss[0], boss[1], 100, 0);
   add_CharacterData(Head, "127.0.0.2", ship1[0], ship1[1], 100, 0);
   add_CharacterData(Head, "127.0.0.3", ship2[0], ship2[1], 98, 0);
-  add_CharacterData(Head, "127.0.0.4", ship3[0], ship3[1], 98, 0);
   remove_CharacterData(Head, "10.0.0.0");
   dump_CharacterData(Head);
 
@@ -57,8 +59,6 @@ void setup()
 
 void draw() 
 {  
-  y = 0;  
-  x = 0;
   check_anykey();
   update_divergence(Head, server.ip());
 
@@ -73,53 +73,37 @@ void draw()
     }
   }
 
-  if (t) { 
-    if (tama1Alive == 0) {
-      tama1X = ship2[0]+50;
-      tama1Y = ship2[1];
-      tama1Alive = 1;
-    }
-  }
-  if (f) {
-    if (tama2Alive == 0) {
-      tama2X = ship2[0]+50;
-      tama2Y = ship2[1];
-      tama2Alive = 1;
-    }
-  }
-  if (r) {
-    stroke(255, 255, 255);
-    strokeWeight(2);
-    line(ship2[0]+50, ship2[1], ship2[0]+50, 0);
-  }
-
-  if (tama1Alive == 1) {
-    tama1X += x;
-    tama1Y += y;
-    fill(230, 220, 255);
-    ellipse(tama1X, tama1Y, 10, 10);  
-    tama1Y = tama1Y - 1;
-  }
-  if (tama1Y < 0) {
-    tama1Alive = 0;
-  }
-  if (tama2Alive == 1) {
-    tama2X += x;
-    tama2Y += y;
-    fill(230, 220, 255);
-    ellipse(tama2X, tama2Y, 10, 10);  
-    tama2Y = tama2Y - 5;
-  }
-  if (tama2Y < 0) {
-    tama2Alive = 0;
-  }
-
   //input_object(Head, boss, ship1, ship2, ship3);
   if (frame%2==0) {
     background(0);
     output_object(Head, ships);
     item.update(x, y);
+    if (btamaY >  height) {
+      btamaAlive = 0;
+    }
+
+    if (ship1[0] == ship1[0] && ship1[1] == ship2[1] || ship1[0] == ship1[0] && ship1[1] == ship3[1] || ship1[0] == ship1[0] && ship3[1] == ship2[1]) {
+      myEXC = -2;
+    }
   }
+  hit();
+    
+  fill(0, 0, 0, 20);
+  rect(0, 0, width, height);
+  fill(255, 0, 0); // 弾の色(赤)
+  for (int i = danmakuList.size()-1; i >= 0; i--) {
+    Danmaku danmaku = danmakuList.get(i);
+    danmaku.move(); // 弾を移動
+    danmaku.draw(); // 弾を描画
+    if (collision(ship2[0], ship2[1], 3, 3, danmaku.x, danmaku.y, 5, 5)) {
+      danmaku.hit = true;
+      myEXC = -1;
+    }
+
+    if (danmaku.needRemove()) danmakuList.remove(i); // 画面外の弾を削除
+  }
+  _boss.move();
+  _boss.draw();
 
   frame++;
   frame%=rate;
