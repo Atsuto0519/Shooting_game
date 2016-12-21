@@ -3,8 +3,12 @@ import processing.net.*;
 Client client;
 //ArrayList<SS> ss_comma;s
 
+int frame = 0;
+int rate = 60;
+
 void setup() {
   //  l = new ArrayList();
+  frameRate(rate);
   size(640, 480);
   background(0);
   noStroke();
@@ -18,7 +22,7 @@ void setup() {
   tama2Alive = 0;
   item = new Item(160, 0, 10);
   client = new Client(this, "127.0.0.1", 50519);
-  Head = new CharacterData(client.ip(), 0, 0, 0, 0);
+  Head = new CharacterData("localhost", 0, 0, 0, 0);
 }
 
 void draw() {
@@ -27,21 +31,27 @@ void draw() {
   x = 0;
   check_anykey();
   update_divergence(Head, client.ip());
-  background(0);
-  output_object(Head, ships);
+
+  if (frame%2==0) {
+    background(0);
+    output_object(Head, ships);
+  }
+
+  frame++;
+  frame%=rate;
 }
 /*
 void mouseClicked() {
-  String s;
-  convert_CharacterData(Head, client.ip(), mouseX, mouseY, 100, 0);
-  dump_CharacterData(Head); 
-  s = make_clientStr(Head);
-  if (s != null) {
-    println(s);
-    client.write(s + '\n');
-  }
-  //client.write(mouseX + " " + mouseY + '\n');
-}*/
+ String s;
+ convert_CharacterData(Head, client.ip(), mouseX, mouseY, 100, 0);
+ dump_CharacterData(Head); 
+ s = make_clientStr(Head);
+ if (s != null) {
+ println(s);
+ client.write(s + '\n');
+ }
+ //client.write(mouseX + " " + mouseY + '\n');
+ }*/
 
 void clientEvent(Client server) {
   String serverStr = client.readStringUntil('\n'); 

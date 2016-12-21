@@ -125,7 +125,7 @@ void exec_clientserverStr(CharacterData head, String clientStr) {
 int calc_CharacterData(CharacterData head) {
   int feedback=-1;
 
-  for (CharacterData p=head; p!=null; p=p.next) {
+  for (CharacterData p=head.next; p!=null; p=p.next) {
     if (feedback<1)
       feedback=0;
 
@@ -138,7 +138,7 @@ int calc_CharacterData(CharacterData head) {
 void update_divergence(CharacterData head, String IP){
   CharacterData myData=searchIP_CharacterData(head, IP);
   
-  for(CharacterData p=head; p!=null; p=p.next){
+  for(CharacterData p=head.next; p!=null; p=p.next){
     p.x_divergence = myData.x-p.x;
     p.y_divergence = myData.y-p.y;
   }

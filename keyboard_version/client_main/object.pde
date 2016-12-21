@@ -53,17 +53,14 @@ void input_object(CharacterData head, int boss[], int ship1[], int ship2[], int 
 void output_object(CharacterData head, PImage[] ships) {
   int char_num=calc_CharacterData(head);
   int shipsimage_num=ships.length;
-  int counter=2, cnt;
-  CharacterData p=head;
+  int counter=0, cnt;
+  CharacterData p=head.next;
 
-  /*
-  image(ships[0], p.x_divergence+270, p.y_divergence+300, 100, 100);
-   image(ships[3], p.x, p.y, 200, 200);*/
-  for (p=head; p!=null; p=p.next) {
-    cnt=counter++%4;
-    if (cnt==3)
-      image(ships[3], p.x_divergence+width/2, p.y_divergence+300, 300, 300);
-    else
+  if (head.next != null) {
+    image(ships[3], p.x_divergence+width/2, p.y_divergence+300, 300, 300);
+    for (p=head.next.next; p!=null; p=p.next) {
+      cnt=counter++%3;
       image(ships[cnt], p.x_divergence+width/2, p.y_divergence+300, 100, 100);
+    }
   }
 }
