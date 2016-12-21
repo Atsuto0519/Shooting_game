@@ -7,6 +7,8 @@ int YMAX = 1000;
 int Xtotal = 150;
 int Ytotal = 150;
 
+CharacterData old_server;
+
 void check_anykey() {
   //押されているキーに応じて、円の中心点を更新
   if (Ytotal <= YMAX) {
@@ -33,7 +35,7 @@ void check_anykey() {
       Xtotal -=1;
     }
   }
-  
+
   ship1[0] += x;
   ship1[1] += y;
   ship3[0] += x;
@@ -43,7 +45,10 @@ void check_anykey() {
 
   if (w||s||a||d) {
     String s;
-    convert_CharacterData(Head, client.ip(), searchIP_CharacterData(Head, client.ip()).x+x, searchIP_CharacterData(Head, client.ip()).y+y, myHP, myEXC);
+    if (old_server!=null && old_server!=Head.next)
+      convert_CharacterData(Head, client.ip(), searchIP_CharacterData(Head, client.ip()).x+x*2, searchIP_CharacterData(Head, client.ip()).y+y*2, myHP, myEXC);
+    else if(old_server!=null)
+      convert_CharacterData(Head, client.ip(), searchIP_CharacterData(Head, client.ip()).x+x*4, searchIP_CharacterData(Head, client.ip()).y+y*4, myHP, myEXC);    
     dump_CharacterData(Head); 
     s = make_clientStr(Head);
     println(s);

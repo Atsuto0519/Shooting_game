@@ -4,7 +4,7 @@ Client client;
 //ArrayList<SS> ss_comma;s
 
 int frame = 0;
-int rate = 60;
+int rate = 120;
 
 void setup() {
   //  l = new ArrayList();
@@ -27,11 +27,14 @@ void setup() {
 
 void draw() {
   //dump_CharacterData(Head);
-  y = 0;  
-  x = 0;
-  check_anykey();
-  update_divergence(Head, client.ip());
+  if (Head.next!=null)
+    update_divergence(Head, client.ip());
 
+  if (frame%5==0) {
+    y = 0;  
+    x = 0;
+    check_anykey();
+  }
   if (frame%2==0) {
     background(0);
     output_object(Head, ships);
@@ -59,6 +62,7 @@ void clientEvent(Client server) {
     println("client received: " + serverStr);
     split_clientserverStr(Head, serverStr);
     dump_CharacterData(Head);
+    old_server=Head.next;
   }
 }
 
