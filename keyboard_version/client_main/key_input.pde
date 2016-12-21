@@ -35,20 +35,20 @@ void check_anykey() {
       Xtotal -=1;
     }
   }
-
+/*
   ship1[0] += x;
   ship1[1] += y;
   ship3[0] += x;
   ship3[1] += y;
   boss[0] += x;
-  boss[1] += y;
+  boss[1] += y;*/
 
   if (w||s||a||d) {
     String s;
     if (old_server!=null && old_server!=Head.next)
-      convert_CharacterData(Head, client.ip(), searchIP_CharacterData(Head, client.ip()).x+x*2, searchIP_CharacterData(Head, client.ip()).y+y*2, myHP, myEXC);
+      convert_CharacterData(Head, myIP, searchIP_CharacterData(Head, myIP).x+x*2, searchIP_CharacterData(Head, myIP).y+y*2, myHP, myEXC);
     else if(old_server!=null)
-      convert_CharacterData(Head, client.ip(), searchIP_CharacterData(Head, client.ip()).x+x*4, searchIP_CharacterData(Head, client.ip()).y+y*4, myHP, myEXC);    
+      convert_CharacterData(Head, myIP, searchIP_CharacterData(Head, myIP).x+x*4, searchIP_CharacterData(Head, myIP).y+y*4, myHP, myEXC);    
     dump_CharacterData(Head); 
     s = make_clientStr(Head);
     println(s);

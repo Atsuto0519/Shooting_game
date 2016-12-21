@@ -21,16 +21,19 @@ void setup() {
   tama1Alive = 0;
   tama2Alive = 0;
   item = new Item(160, 0, 10);
-  client = new Client(this, "127.0.0.1", 50519);
+  client = new Client(this, "192.168.0.7", 50519);
   Head = new CharacterData("localhost", 0, 0, 0, 0);
+  myIP = "192.168.0.9";
 }
 
 void draw() {
-  //dump_CharacterData(Head);
+  println();
+  println(myIP);
+  dump_CharacterData(Head);
   if (Head.next!=null)
-    update_divergence(Head, client.ip());
+    update_divergence(Head, myIP);
 
-  if (frame%5==0) {
+  if (frame%6==0) {
     y = 0;  
     x = 0;
     check_anykey();
@@ -46,7 +49,7 @@ void draw() {
 /*
 void mouseClicked() {
  String s;
- convert_CharacterData(Head, client.ip(), mouseX, mouseY, 100, 0);
+ convert_CharacterData(Head, myIP, mouseX, mouseY, 100, 0);
  dump_CharacterData(Head); 
  s = make_clientStr(Head);
  if (s != null) {
@@ -79,7 +82,7 @@ void split_clientserverStr(CharacterData head, String someStr) {
 String make_clientStr(CharacterData head) {
   String clientStr;
 
-  CharacterData p = searchIP_CharacterData(head, client.ip());
+  CharacterData p = searchIP_CharacterData(head, myIP);
 
   clientStr = p.ip + "," + p.x + "," + p.y + "," + p.hp + "," + p.exception + ";" + '\n';
 

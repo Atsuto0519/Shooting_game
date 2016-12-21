@@ -8,6 +8,7 @@ Item item;
 
 PImage[] ships = new PImage[4];
 int myX=270, myY=300, myHP=100, myEXC=0;
+String myIP;
 
 class Item {
   float ix, iy, ir;
