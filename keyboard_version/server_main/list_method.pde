@@ -5,6 +5,7 @@ public CharacterData Head=null;
 public static class CharacterData {
   String ip;
   int x, y, hp, exception;
+  int x_divergence, y_divergence;
   CharacterData next = null;
 
   CharacterData(String IP, int px, int py, int HP, int EXC) {
@@ -12,6 +13,8 @@ public static class CharacterData {
     x = px;
     y = py;
     hp = HP;    
+    x_divergence=0;
+    y_divergence=0;
     exception = EXC;
   }
   // add list
@@ -102,6 +105,7 @@ void dump_CharacterData(CharacterData head) {
   CharacterData p;
   for (p = head; p!=null; p=p.next) {
     println("ip=" + p.ip + ", x=" + p.x + ", y="+ p.y + ", hp=" + p.hp + ", exc=" + p.exception);
+    println("divergence=(" + p.x_divergence + ", " + p.y_divergence + ")");
   }
 }
 
@@ -118,3 +122,24 @@ void exec_clientserverStr(CharacterData head, String clientStr) {
   }
 }
 
+int calc_CharacterData(CharacterData head) {
+  int feedback=-1;
+
+  for (CharacterData p=head; p!=null; p=p.next) {
+    if (feedback<1)
+      feedback=0;
+
+    feedback++;
+  }
+
+  return feedback;
+}
+
+void update_divergence(CharacterData head, String IP){
+  CharacterData myData=searchIP_CharacterData(head, IP);
+  
+  for(CharacterData p=head; p!=null; p=p.next){
+    p.x_divergence = myData.x-p.x;
+    p.y_divergence = myData.y-p.y;
+  }
+}

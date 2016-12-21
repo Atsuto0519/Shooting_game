@@ -43,11 +43,11 @@ void check_anykey() {
 
   if (w||s||a||d) {
     String s;
-    convert_CharacterData(Head, Server.ip(), searchIP_CharacterData(Head, Server.ip()).x+x, searchIP_CharacterData(Head, Server.ip()).y+y, myHP, myEXC);
+    convert_CharacterData(Head, client.ip(), searchIP_CharacterData(Head, client.ip()).x+x, searchIP_CharacterData(Head, client.ip()).y+y, myHP, myEXC);
     dump_CharacterData(Head); 
-    s = make_serverStr(Head);
+    s = make_clientStr(Head);
     println(s);
-    server.write(s+'\n');
+    client.write(s+'\n');
   }
 }
 

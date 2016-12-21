@@ -3,7 +3,7 @@ int tama1Alive, tama2Alive;
 int ship1[]={-120, 300};
 int ship2[]={270, 300};
 int ship3[]={700, 300};
-int boss[]={0, 500};
+int boss[]={0, 800};
 Item item;
 
 PImage[] ships = new PImage[4];
@@ -53,7 +53,7 @@ void input_object(CharacterData head, int boss[], int ship1[], int ship2[], int 
 void output_object(CharacterData head, PImage[] ships) {
   int char_num=calc_CharacterData(head);
   int shipsimage_num=ships.length;
-  int counter=3, cnt;
+  int counter=2, cnt;
   CharacterData p=head;
 
   /*

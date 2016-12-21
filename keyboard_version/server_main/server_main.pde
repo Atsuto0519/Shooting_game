@@ -6,6 +6,9 @@ Server server;
 int mapX=30;
 int mapY=50;
 
+int frame = 0;
+int rate = 120;
+
 // all map's data array
 int[][] all_map = new int[mapX][mapY];
 //byte[] byteBuffer = new byte[10];
@@ -22,10 +25,11 @@ void setup()
   background(0);
   noStroke();
   smooth();
-  ship1Img = loadImage("player_1.png");
-  ship2Img = loadImage("player_2.png");
-  ship3Img = loadImage("player_3.png");
-  bossImg = loadImage("boss.PNG");
+  imageMode(CENTER);
+  ships[0] = loadImage("player_1.png");
+  ships[1] = loadImage("player_2.png");
+  ships[2] = loadImage("player_3.png");
+  ships[3] = loadImage("boss.PNG");
   tama1Alive = 0;
   tama2Alive = 0;
   item = new Item(160, 0, 10);
@@ -41,16 +45,22 @@ void setup()
   }
 
   // initializing list
-  Head = new CharacterData(Server.ip(), 0, 0, 100, 0);
-  add_CharacterData(Head, "127.0.0.2", 1, 1, 99, 0);
-  add_CharacterData(Head, "127.0.0.3", 2, 1, 98, 0);
-  add_CharacterData(Head, "127.0.0.4", 3, 1, 97, 0);
+  Head = new CharacterData(Server.ip(), boss[0], boss[1], 100, 0);
+  add_CharacterData(Head, "127.0.0.2", ship1[0], ship1[1], 100, 0);
+  add_CharacterData(Head, "127.0.0.3", ship2[0], ship2[1], 98, 0);
   remove_CharacterData(Head, "10.0.0.0");
   dump_CharacterData(Head);
+
+  input_object(Head, boss, ship1, ship2, ship3);
 }
 
 void draw() 
 {  
+  y = 0;  
+  x = 0;
+  check_anykey();
+  update_divergence(Head, server.ip());
+
   Client c = server.available();
   if (c != null) {
     println("Client IP address : "+c.ip());
@@ -62,28 +72,24 @@ void draw()
     }
   }
 
-  y = 0;  
-  x = 0;
-  check_anykey();
-
   if (t) { 
     if (tama1Alive == 0) {
-      tama1X = ship2X+50;
-      tama1Y = ship2Y;
+      tama1X = ship2[0]+50;
+      tama1Y = ship2[1];
       tama1Alive = 1;
     }
   }
   if (f) {
     if (tama2Alive == 0) {
-      tama2X = ship2X+50;
-      tama2Y = ship2Y;
+      tama2X = ship2[0]+50;
+      tama2Y = ship2[1];
       tama2Alive = 1;
     }
   }
   if (r) {
     stroke(255, 255, 255);
     strokeWeight(2);
-    line(ship2X+50, ship2Y, ship2X+50, 0);
+    line(ship2[0]+50, ship2[1], ship2[0]+50, 0);
   }
 
   if (tama1Alive == 1) {
@@ -106,19 +112,11 @@ void draw()
   if (tama2Y < 0) {
     tama2Alive = 0;
   }
-  ship1X += x;
-  ship1Y += y;
-  ship3X += x;
-  ship3Y += y;
-  bossX += x;
-  bossY += y;
 
+  //input_object(Head, boss, ship1, ship2, ship3);
   if (frame%2==0) {
     background(0);
-    image(ship1Img, ship1X, ship1Y, 100, 100);
-    image(ship2Img, ship2X, ship2Y, 100, 100);
-    image(ship3Img, ship3X, mship3Y, 100, 100);
-    image(bossImg, bossX, bossY, 200, 200);
+    output_object(Head, ships);
     item.update(x, y);
   }
 
@@ -145,4 +143,3 @@ String make_serverStr(CharacterData head) {
   serverStr += '\n';
   return serverStr;
 }
-
