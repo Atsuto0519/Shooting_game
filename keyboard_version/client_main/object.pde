@@ -1,9 +1,17 @@
 int tama1X, tama1Y, tama2X, tama2Y;
 int tama1Alive, tama2Alive;
-int ship1[]={-120, 300};
-int ship2[]={270, 300};
-int ship3[]={700, 300};
-int boss[]={0, 800};
+int ship1[]= {
+  -120, 300
+};
+int ship2[]= {
+  270, 300
+};
+int ship3[]= {
+  700, 300
+};
+int boss[]= {
+  0, 800
+};
 Item item;
 
 PImage[] ships = new PImage[4];
@@ -27,7 +35,8 @@ class Item {
       iy = 0;
       ix = random(width);
       myHP-=10;
-      convert_CharacterData(Head, myIP, searchIP_CharacterData(Head, myIP).x+x*2, searchIP_CharacterData(Head, myIP).y+y*2, myHP, myEXC);
+      convert_CharacterData(Head, myIP, searchIP_CharacterData(Head, myIP).x, searchIP_CharacterData(Head, myIP).y, myHP, myEXC);
+      dump_CharacterData(Head);
       myEXC = 0;
     }
     if (iy > height) {
@@ -67,3 +76,4 @@ void output_object(CharacterData head, PImage[] ships) {
     }
   }
 }
+

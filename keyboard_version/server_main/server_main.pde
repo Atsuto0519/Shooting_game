@@ -66,6 +66,8 @@ void draw()
   }   
   check_anykey();
   update_divergence(Head, server.ip());
+  convert_CharacterData(Head, server.ip(), searchIP_CharacterData(Head, Server.ip()).x, searchIP_CharacterData(Head, Server.ip()).y, myHP, myEXC);
+  dump_CharacterData(Head);
 
   Client c = server.available();
   if (c != null) {
@@ -74,7 +76,8 @@ void draw()
     if (s != null) {
       exec_clientserverStr(Head, s);
       println("server received: " + s); 
-      //server.write(s + '\n');
+      s = make_serverStr(Head);
+      server.write(s + '\n');
     }
   }
 
@@ -144,3 +147,4 @@ String make_serverStr(CharacterData head) {
   serverStr += '\n';
   return serverStr;
 }
+

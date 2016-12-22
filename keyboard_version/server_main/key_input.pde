@@ -35,21 +35,23 @@ void check_anykey() {
       Xtotal -=1;
     }
   }
-  
+  /*
   ship1[0] += x;
-  ship1[1] += y;
-  ship3[0] += x;
-  ship3[1] += y;
-  boss[0] += x;
-  boss[1] += y;
-   
+   ship1[1] += y;
+   ship3[0] += x;
+   ship3[1] += y;
+   boss[0] += x;
+   boss[1] += y;*/
+
   if (w||s||a||d||r) {
     String s;
     convert_CharacterData(Head, Server.ip(), searchIP_CharacterData(Head, Server.ip()).x+x, searchIP_CharacterData(Head, Server.ip()).y+y, myHP, myEXC);
-    dump_CharacterData(Head); 
+    dump_CharacterData(Head);
     s = make_serverStr(Head);
     println(s);
     server.write(s+'\n');
+  } else {
+    myEXC=0;
   }
 }
 
@@ -106,3 +108,4 @@ void keyReleased() {
     break;
   }
 }
+

@@ -26,6 +26,11 @@ class Item {
       iy = 0;
       ix = random(width);
       myHP-=10;
+      convert_CharacterData(Head, server.ip(), searchIP_CharacterData(Head, Server.ip()).x, searchIP_CharacterData(Head, Server.ip()).y, myHP, myEXC);
+      dump_CharacterData(Head);
+      String s = make_serverStr(Head);
+      server.write(s + '\n');
+      myEXC = 0;
     }
     if (iy > height) {
       iy = 0;
