@@ -6,6 +6,7 @@ Client client;
 int frame = 0;
 int rate = 120;
 
+int flag = 0;  
 void setup() {
   //  l = new ArrayList();
   frameRate(rate);
@@ -18,6 +19,7 @@ void setup() {
   ships[1] = loadImage("player_2.png");
   ships[2] = loadImage("player_3.png");
   ships[3] = loadImage("boss.PNG");
+  background_space = loadImage("background_space.jpg");
   tama1Alive = 0;
   tama2Alive = 0;
   item = new Item(160, 0, 10);
@@ -27,31 +29,42 @@ void setup() {
 }
 
 void draw() {
-  println();
-  println(myIP);
-  dump_CharacterData(Head);
-  if (Head.next!=null)
-    update_divergence(Head, myIP);
+  if (flag == 0) {
+    println();
+    println(myIP);
+    dump_CharacterData(Head);
+    if (Head.next!=null)
+      update_divergence(Head, myIP);
 
-  if (r) {
-    stroke(255, 255, 255);
-    strokeWeight(2);
-    line(width/2, ship2[1], width/2, 0);
-    myEXC=3;
-  }
+    myEXC=0; 
+    if (r) {
+      stroke(255, 255, 255);
+      strokeWeight(2);
+      line(width/2, ship2[1], width/2, 0);
+      myEXC=3;
+    }
 
-  if (frame%6==0) {
-    check_anykey();  
-  }
+    if (frame%6==0) {
+      check_anykey();
+    }
 
-  if (frame%2==0) {
+    if (frame%2==0) {
+      CharacterData tmp = searchIP_CharacterData(Head, myIP);
+      if (tmp != null)
+        image(background_space, width/2+tmp.x/4, height/2-500/4+tmp.y/4, 1920, 1440);
+      output_object(Head, ships);
+      if (searchIP_CharacterData(Head, myIP) != null)
+        myHP = searchIP_CharacterData(Head, myIP).hp;
+      item.update(x, y);
+    }
+
+    disp_hud(Head, myIP); 
+
+    frame++;
+    frame%=rate;
+  } else if (flag == 1) {
     background(0);
-    output_object(Head, ships);
-    item.update(x, y);
   }
-
-  frame++;
-  frame%=rate;
 }
 /*
 void mouseClicked() {

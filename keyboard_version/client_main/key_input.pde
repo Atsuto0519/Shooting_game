@@ -10,8 +10,8 @@ int Ytotal = 150;
 CharacterData old_server;
 
 void check_anykey() {
-    y = 0;  
-    x = 0;
+  y = 0;  
+  x = 0;
   //押されているキーに応じて、円の中心点を更新
   if (Ytotal <= YMAX) {
     if (w) {

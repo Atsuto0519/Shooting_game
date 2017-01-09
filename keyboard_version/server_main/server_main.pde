@@ -18,6 +18,7 @@ int dataSIZE = 5;
 // to send data for clients
 int[] send_data = new int[dataSIZE];
 
+int flag = 0;
 void setup() 
 {
   frameRate(rate);
@@ -30,6 +31,7 @@ void setup()
   ships[1] = loadImage("player_2.png");
   ships[2] = loadImage("player_3.png");
   ships[3] = loadImage("boss.PNG");
+  background_space = loadImage("background_space.jpg");
   tama1Alive = 0;
   tama2Alive = 0;
   item = new Item(160, 0, 10);
@@ -56,76 +58,84 @@ void setup()
 }
 
 void draw() 
-{  
-  myEXC = 0;
-  if (r) {
-    stroke(255, 255, 255);
-    strokeWeight(2);
-    line(ship2[0]+50, ship2[1], ship2[0]+50, 480);
-    myEXC=3;
-  }   
-  check_anykey();
-  update_divergence(Head, server.ip());
-  convert_CharacterData(Head, server.ip(), searchIP_CharacterData(Head, Server.ip()).x, searchIP_CharacterData(Head, Server.ip()).y, myHP, myEXC);
-  dump_CharacterData(Head);
+{ 
+  if (flag == 0) {
+    myEXC=0;
+    if (r) {
+      stroke(255, 255, 255);
+      strokeWeight(2);
+      line(width/2, ship2[1], width/2, 480);
+      myEXC=3;
+    }   
+    check_anykey();
+    update_divergence(Head, Server.ip());
+    convert_CharacterData(Head, Server.ip(), searchIP_CharacterData(Head, Server.ip()).x, searchIP_CharacterData(Head, Server.ip()).y, myHP, myEXC);
+    dump_CharacterData(Head);
 
-  Client c = server.available();
-  if (c != null) {
-    println("Client IP address : "+c.ip());
-    String s = c.readStringUntil('\n');
-    if (s != null) {
-      exec_clientserverStr(Head, s);
-      println("server received: " + s); 
-      s = make_serverStr(Head);
-      server.write(s + '\n');
+    Client c = server.available();
+    if (c != null) {
+      println("Client IP address : "+c.ip());
+      String s = c.readStringUntil('\n');
+      if (s != null) {
+        exec_clientserverStr(Head, s);
+        println("server received: " + s); 
+        s = make_serverStr(Head);
+        server.write(s + '\n');
+      }
     }
-  }
-
-  if (t) { 
-    if (tama1Alive == 0) {
-      tama1X = ship2[0]+50;
-      tama1Y = ship2[1];
-      tama1Alive = 1;
+    /*
+    if (t) { 
+     if (tama1Alive == 0) {
+     tama1X = ship2[0]+50;
+     tama1Y = ship2[1];
+     tama1Alive = 1;
+     }
+     }
+     if (f) {
+     if (tama2Alive == 0) {
+     tama2X = ship2[0]+50;
+     tama2Y = ship2[1];
+     tama2Alive = 1;
+     }
+     }
+     
+     if (tama1Alive == 1) {
+     tama1X += x;
+     tama1Y += y;
+     fill(230, 220, 255);
+     ellipse(tama1X, tama1Y, 10, 10);  
+     tama1Y = tama1Y - 1;
+     }
+     if (tama1Y < 0) {
+     tama1Alive = 0;
+     }
+     if (tama2Alive == 1) {
+     tama2X += x;
+     tama2Y += y;
+     fill(230, 220, 255);
+     ellipse(tama2X, tama2Y, 10, 10);  
+     tama2Y = tama2Y - 5;
+     }
+     if (tama2Y < 0) {
+     tama2Alive = 0;
+     }
+     */
+    //input_object(Head, boss, ship1, ship2, ship3);
+    if (frame%2==0) {
+      image(background_space, width/2-Head.x/4, height/2+Head.y/4, 1920, 1440);
+      output_object(Head, ships);
+      collision_beam_detection(Head);
+      myHP = searchIP_CharacterData(Head, Server.ip()).hp;
+      item.update(x, y);
     }
-  }
-  if (f) {
-    if (tama2Alive == 0) {
-      tama2X = ship2[0]+50;
-      tama2Y = ship2[1];
-      tama2Alive = 1;
-    }
-  }
 
-  if (tama1Alive == 1) {
-    tama1X += x;
-    tama1Y += y;
-    fill(230, 220, 255);
-    ellipse(tama1X, tama1Y, 10, 10);  
-    tama1Y = tama1Y - 1;
-  }
-  if (tama1Y < 0) {
-    tama1Alive = 0;
-  }
-  if (tama2Alive == 1) {
-    tama2X += x;
-    tama2Y += y;
-    fill(230, 220, 255);
-    ellipse(tama2X, tama2Y, 10, 10);  
-    tama2Y = tama2Y - 5;
-  }
-  if (tama2Y < 0) {
-    tama2Alive = 0;
-  }
+    disp_hud(Server.ip(), myHP);  
 
-  //input_object(Head, boss, ship1, ship2, ship3);
-  if (frame%2==0) {
+    frame++;
+    frame%=rate;
+  } else if (flag == 1) {
     background(0);
-    output_object(Head, ships);
-    item.update(x, y);
   }
-
-  frame++;
-  frame%=rate;
 }
 
 void serverEvent(Server someServer, Client someClient) {
@@ -147,4 +157,3 @@ String make_serverStr(CharacterData head) {
   serverStr += '\n';
   return serverStr;
 }
-

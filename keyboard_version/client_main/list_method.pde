@@ -96,8 +96,7 @@ void convert_CharacterData(CharacterData head, String IP, int px, int py, int HP
     p.x = px;
     p.y = py;
     p.hp = HP;
-    if (EXC!=0)
-      p.exception = EXC;
+    p.exception = EXC;
   }
 }
 
@@ -142,6 +141,21 @@ void update_divergence(CharacterData head, String IP) {
     for (CharacterData p=head.next; p!=null; p=p.next) {
       p.x_divergence = myData.x-p.x;
       p.y_divergence = myData.y-p.y;
+    }
+  }
+}
+
+void disp_hud(CharacterData head, String IP) {
+  int HP;
+  CharacterData p=searchIP_CharacterData(head, IP);
+  if (p!=null) {
+    HP = p.hp;
+    text(IP, 20, 455); 
+    strokeWeight(3);
+    stroke(255, 0, 0); 
+    line(10, 440, HP+10, 440);
+    if (HP <= 0) {
+      flag=1;
     }
   }
 }

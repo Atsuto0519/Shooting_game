@@ -15,6 +15,7 @@ int boss[]= {
 Item item;
 
 PImage[] ships = new PImage[4];
+PImage background_space;
 int myX=270, myY=300, myHP=100, myEXC=0;
 String myIP;
 
@@ -36,8 +37,10 @@ class Item {
       ix = random(width);
       myHP-=10;
       convert_CharacterData(Head, myIP, searchIP_CharacterData(Head, myIP).x, searchIP_CharacterData(Head, myIP).y, myHP, myEXC);
-      dump_CharacterData(Head);
-      myEXC = 0;
+      dump_CharacterData(Head);      
+      String s = make_clientStr(Head);
+      println(s);
+      client.write(s+'\n');
     }
     if (iy > height) {
       iy = 0;
@@ -70,10 +73,14 @@ void output_object(CharacterData head, PImage[] ships) {
 
   if (head.next != null) {
     image(ships[3], p.x_divergence+width/2, p.y_divergence+300, 300, 300);
+    // disp beam
+    if (p.exception == 3)
+      line(p.x_divergence+width/2, p.y_divergence+300, p.x_divergence+width/2, 480);
     for (p=head.next.next; p!=null; p=p.next) {
       cnt=counter++%3;
       image(ships[cnt], p.x_divergence+width/2, p.y_divergence+300, 100, 100);
+      if (p.exception == 3)
+        line(p.x_divergence+width/2, p.y_divergence+300, p.x_divergence+width/2, 0);
     }
   }
 }
-

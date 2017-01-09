@@ -43,15 +43,10 @@ void check_anykey() {
    boss[0] += x;
    boss[1] += y;*/
 
-  if (w||s||a||d||r) {
-    String s;
+  if (w||s||a||r||d||r) {
     convert_CharacterData(Head, Server.ip(), searchIP_CharacterData(Head, Server.ip()).x+x, searchIP_CharacterData(Head, Server.ip()).y+y, myHP, myEXC);
-    dump_CharacterData(Head);
-    s = make_serverStr(Head);
-    println(s);
-    server.write(s+'\n');
-  } else {
-    myEXC=0;
+    String s = make_serverStr(Head);
+    server.write(s + '\n');
   }
 }
 
@@ -108,4 +103,3 @@ void keyReleased() {
     break;
   }
 }
-
